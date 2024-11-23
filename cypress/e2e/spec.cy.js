@@ -67,10 +67,36 @@ describe('Bank Manager Login', () => {
   //   cy.get('button').submit()
   // })
 
-  it('Memastikan dapat menghapus satu akun customer', () => {
+  // it('Memastikan dapat menghapus satu akun customer', () => {
+  //   cy.contains('Customers').click()
+  //   cy.contains('tr', 'Ron').find('button').click()
+  //   cy.contains('tr', 'Ron').should('not.exist') //memastikan baris yg dihuni Ron telah terhapus
+  // })
+
+  it('Mencari Customer berdasarkan karakter', () => {
+    const charSearch = 'He'
+    let ygDicari = false
     cy.contains('Customers').click()
-    cy.contains('tr', 'Ron').find('button').click()
-    cy.contains('tr', 'Ron').should('not.exist') //memastikan baris yg dihuni Ron telah terhapus
+    cy.get('.form-control').type(charSearch)
+
+    cy.wait(5000)
+    //VERIFIKASI DAFTAR CUSTOMER YANG MEMILIKI HURUF dalam variabel charSearch
+    cy.get('table tbody tr').each((tabel) => {
+      cy.wrap(tabel)
+        .find('td')
+        .each((cell)=> {
+          cy.log(cell.text())
+        })
+       .then((isiTabel) => {
+        const ygDicari = Array.from(isiTabel).some((kolom) => kolom.innerText.toLowerCase().includes(charSearch.toLowerCase()))
+
+        expect(ygDicari).to.be.true
+      })
+    })
+    // cy.get('table tbody tr', { timeout: 5000 }).should('have.length', 2)
+
+
+
   })
 
 })
