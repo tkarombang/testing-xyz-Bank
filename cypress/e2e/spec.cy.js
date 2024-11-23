@@ -68,7 +68,9 @@ describe('Bank Manager Login', () => {
   // })
 
   it('Memastikan dapat menghapus satu akun customer', () => {
-    
+    cy.contains('Customers').click()
+    cy.contains('tr', 'Ron').find('button').click()
+    cy.contains('tr', 'Ron').should('not.exist') //memastikan baris yg dihuni Ron telah terhapus
   })
 
 })
